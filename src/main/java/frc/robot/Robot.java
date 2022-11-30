@@ -4,9 +4,17 @@
 
 package frc.robot;
 
+
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -19,6 +27,14 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private XboxController joystick = new XboxController(0);
+
+  private TalonFX LEFT_MOTOR_TOP_PORT = new TalonFX(2);
+  private TalonFX LEFT_MOTOR_FRONT_PORT = new TalonFX(21);
+  private TalonFX LEFT_MOTOR_BACK_PORT = new TalonFX(23);
+  private TalonFX RIGHT_MOTOR_TOP_PORT = new TalonFX(5);
+  private TalonFX RIGHT_MOTOR_FRONT_PORT = new TalonFX(24);
+  private TalonFX RIGHT_MOTOR_BACK_PORT = new TalonFX(26);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -70,6 +86,7 @@ public class Robot extends TimedRobot {
         // Put default auto code here
         break;
     }
+    
   }
 
   /** This function is called once when teleop is enabled. */
@@ -78,7 +95,22 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  
+  
+  public void teleopPeriodic() {
+    double right = joystick.getRightY();
+    double left = joystick.getLeftY();
+    double deadzone = 0.2
+    if (Math.abs(left) >= deadzone) {
+      LEFT_MOTOR_FRONT_PORT.set(TalonFXControlMode.PercentOutput, left);
+      LEFT_MOTOR_TOP_PORT.set(TalonFXControlMode.PercentOutput, left);
+      LEFT_MOTOR_BACK_PORT.set(TalonFXControlMode.PercentOutput, left);
+  }
+  if (Math.abs(right) >= deadzone) {
+    RIGHT_MOTOR_FRONT_PORT.set(TalonFXControlMode.PercentOutput, right);
+    RIGHT_MOTOR_TOP_PORT.set(TalonFXControlMode.PercentOutput, right);
+    RIGHT_MOTOR_BACK_PORT.set(TalonFXControlMode.PercentOutput, right);
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override
