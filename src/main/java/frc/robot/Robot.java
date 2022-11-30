@@ -100,7 +100,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     double right = joystick.getRightY();
     double left = joystick.getLeftY();
-    double deadzone = 0.2
+    double deadzone = 0.2;
     if (Math.abs(left) >= deadzone) {
       LEFT_MOTOR_FRONT_PORT.set(TalonFXControlMode.PercentOutput, left);
       LEFT_MOTOR_TOP_PORT.set(TalonFXControlMode.PercentOutput, left);
@@ -110,6 +110,7 @@ public class Robot extends TimedRobot {
     RIGHT_MOTOR_FRONT_PORT.set(TalonFXControlMode.PercentOutput, right);
     RIGHT_MOTOR_TOP_PORT.set(TalonFXControlMode.PercentOutput, right);
     RIGHT_MOTOR_BACK_PORT.set(TalonFXControlMode.PercentOutput, right);
+   }
   }
 
   /** This function is called once when the robot is disabled. */
