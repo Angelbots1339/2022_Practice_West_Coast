@@ -9,7 +9,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -34,7 +33,7 @@ public class Robot extends TimedRobot {
   private TalonFX LEFT_MOTOR_FRONT = new TalonFX(21);
   private TalonFX LEFT_MOTOR_BACK = new TalonFX(23);
   private TalonFX RIGHT_MOTOR_TOP = new TalonFX(5);
-  private TalonFX RIGHT_MOTOR_RIGHT = new TalonFX(24);
+  private TalonFX RIGHT_MOTOR_FRONT = new TalonFX(24);
   private TalonFX RIGHT_MOTOR_BACK = new TalonFX(26);
   
 
@@ -107,7 +106,7 @@ public class Robot extends TimedRobot {
 
     if (Math.abs(right) >= deadzone) {
       RIGHT_MOTOR_TOP.set(TalonFXControlMode.PercentOutput, right);
-      RIGHT_MOTOR_RIGHT.set(TalonFXControlMode.PercentOutput, right);
+      RIGHT_MOTOR_FRONT.set(TalonFXControlMode.PercentOutput, right);
       RIGHT_MOTOR_BACK.set(TalonFXControlMode.PercentOutput, right);
     }
 
