@@ -29,12 +29,12 @@ public class Robot extends TimedRobot {
 
   private XboxController joystick = new XboxController(0);
   // motor time
-  private TalonFX LEFT_MOTOR_TOP = new TalonFX(2);
-  private TalonFX LEFT_MOTOR_FRONT = new TalonFX(21);
-  private TalonFX LEFT_MOTOR_BACK = new TalonFX(23);
-  private TalonFX RIGHT_MOTOR_TOP = new TalonFX(5);
-  private TalonFX RIGHT_MOTOR_FRONT = new TalonFX(24);
-  private TalonFX RIGHT_MOTOR_BACK = new TalonFX(26);
+  private TalonFX LEFT_MOTOR_TOP = new TalonFX(2, "canivore");
+  private TalonFX LEFT_MOTOR_FRONT = new TalonFX(21, "canivore");
+  private TalonFX LEFT_MOTOR_BACK = new TalonFX(23, "canivore");
+  private TalonFX RIGHT_MOTOR_TOP = new TalonFX(5, "canivore");
+  private TalonFX RIGHT_MOTOR_FRONT = new TalonFX(24, "canivore");
+  private TalonFX RIGHT_MOTOR_BACK = new TalonFX(26, "canivore");
   
 
   /**
