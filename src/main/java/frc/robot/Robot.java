@@ -105,7 +105,7 @@ public class Robot extends TimedRobot {
     // prevent joystick drift by adding a min 
     double deadzone = 0.2;
 
-    if (Math.abs(left) >= deadzone) {
+    if (Math.abs(right) >= deadzone) {
       RIGHT_MOTOR_TOP.set(TalonFXControlMode.PercentOutput, right);
       RIGHT_MOTOR_RIGHT.set(TalonFXControlMode.PercentOutput, right);
       RIGHT_MOTOR_BACK.set(TalonFXControlMode.PercentOutput, right);
