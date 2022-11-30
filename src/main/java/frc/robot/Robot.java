@@ -122,7 +122,7 @@ public class Robot extends TimedRobot {
 
     config.supplyCurrLimit.enable = true;
 
-    config.supplyCurrLimit.triggerThresholdCurrent = 40; // the peak supply current, in amps
+    config.supplyCurrLimit.triggerThresholdCurrent = 30; // the peak supply current, in amps
 
     config.supplyCurrLimit.triggerThresholdTime = 1.5; // the time at the peak supply current before the limit triggers, in sec
 
@@ -135,7 +135,12 @@ public class Robot extends TimedRobot {
     rightMotorFront.configAllSettings(config); 
     rightMotorTop.configAllSettings(config); 
 
-    
+    leftMotorBack.set(TalonFXControlMode.PercentOutput, joystickX);
+    leftMotorFront.set(TalonFXControlMode.PercentOutput, joystickX);
+    leftMotorFront.set(TalonFXControlMode.PercentOutput, joystickX);
+    rightMotorTop.set(TalonFXControlMode.PercentOutput, joystickY);
+    rightMotorFront.set(TalonFXControlMode.PercentOutput, joystickY);
+    rightMotorBack.set(TalonFXControlMode.PercentOutput, joystickY);
   }
 
   /** This function is called once when the robot is disabled. */
