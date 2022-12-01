@@ -38,12 +38,12 @@ public class Robot extends TimedRobot {
   private int RIGHT_MOTOR_FRONT_PORT = 24;
   private int RIGHT_MOTOR_BACK_PORT = 26;
   
-  private TalonFX leftMotorBack = new TalonFX(LEFT_MOTOR_BACK_PORT);
-  private TalonFX leftMotorFront = new TalonFX(LEFT_MOTOR_FRONT_PORT);
-  private TalonFX leftMotorTop = new TalonFX(LEFT_MOTOR_TOP_PORT);
-  private TalonFX rightMotorBack = new TalonFX(RIGHT_MOTOR_BACK_PORT);
-  private TalonFX rightMotorFront = new TalonFX(RIGHT_MOTOR_FRONT_PORT);
-  private TalonFX rightMotorTop = new TalonFX(RIGHT_MOTOR_TOP_PORT);
+  private TalonFX leftMotorBack = new TalonFX(LEFT_MOTOR_BACK_PORT, "Canivore");
+  private TalonFX leftMotorFront = new TalonFX(LEFT_MOTOR_FRONT_PORT, "Canivore");
+  private TalonFX leftMotorTop = new TalonFX(LEFT_MOTOR_TOP_PORT, "Canivore");
+  private TalonFX rightMotorBack = new TalonFX(RIGHT_MOTOR_BACK_PORT, "Canivore");
+  private TalonFX rightMotorFront = new TalonFX(RIGHT_MOTOR_FRONT_PORT, "Canivore");
+  private TalonFX rightMotorTop = new TalonFX(RIGHT_MOTOR_TOP_PORT, "Canivore");
   /**
    * This function is run when the robot is first started up and should be used
    * for any
@@ -116,30 +116,30 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+
     double joystickX = joystick.getLeftX();
-    double joystickY = joystick.getRightX();
+    double joystickY = -joystick.getRightX();
 
-    config.supplyCurrLimit.enable = true;
+    double deadzone = 0.2;
 
-    config.supplyCurrLimit.triggerThresholdCurrent = 30; // the peak supply current, in amps
 
-    config.supplyCurrLimit.triggerThresholdTime = 1.5; // the time at the peak supply current before the limit triggers, in sec
+    // leftMotorBack.set(TalonFXControlMode.PercentOutput, joystickX);   
+    // leftMotorFront.set(TalonFXControlMode.PercentOutput, joystickX);
+    // leftMotorTop.set(TalonFXControlMode.PercentOutput, joystickX);
+    // rightMotorTop.set(TalonFXControlMode.PercentOutput, joystickY);
+    // rightMotorFront.set(TalonFXControlMode.PercentOutput, joystickY);
+    // rightMotorBack.set(TalonFXControlMode.PercentOutput, joystickY);
 
-    config.supplyCurrLimit.currentLimit = 30; // the current to maintain if the peak supply limit is triggered
-
-    leftMotorBack.configAllSettings(config); 
-    leftMotorFront.configAllSettings(config);
-    leftMotorTop.configAllSettings(config);
-    rightMotorBack.configAllSettings(config); 
-    rightMotorFront.configAllSettings(config); 
-    rightMotorTop.configAllSettings(config); 
-
-    leftMotorBack.set(TalonFXControlMode.PercentOutput, joystickX);
-    leftMotorFront.set(TalonFXControlMode.PercentOutput, joystickX);
-    leftMotorFront.set(TalonFXControlMode.PercentOutput, joystickX);
-    rightMotorTop.set(TalonFXControlMode.PercentOutput, joystickY);
-    rightMotorFront.set(TalonFXControlMode.PercentOutput, joystickY);
-    rightMotorBack.set(TalonFXControlMode.PercentOutput, joystickY);
+    if (joystickX <= deadzone){
+      leftMotorBack.set(TalonFXControlMode.PercentOutput, joystickX);   
+      leftMotorFront.set(TalonFXControlMode.PercentOutput, joystickX);
+      leftMotorTop.set(TalonFXControlMode.PercentOutput, joystickX);
+    }
+    if (joystickY <= deadzone){
+      rightMotorTop.set(TalonFXControlMode.PercentOutput, joystickY);
+      rightMotorFront.set(TalonFXControlMode.PercentOutput, joystickY);
+      rightMotorBack.set(TalonFXControlMode.PercentOutput, joystickY);
+    }
   }
 
   /** This function is called once when the robot is disabled. */
