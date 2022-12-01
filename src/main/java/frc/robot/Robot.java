@@ -35,6 +35,8 @@ public class Robot extends TimedRobot {
   private TalonFX RIGHT_MOTOR_TOP = new TalonFX(5, "Canivore");
   private TalonFX RIGHT_MOTOR_FRONT = new TalonFX(24, "Canivore");
   private TalonFX RIGHT_MOTOR_BACK = new TalonFX(26, "Canivore");
+
+  double deadzone = 0.025;
   
 
   /**
@@ -98,22 +100,32 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     // right controls x, left controls y
-    double left = joystick.getLeftY();
-    double right = joystick.getRightY();
+    double left = -(joystick.getLeftY()/5);
+    double right = (joystick.getRightY()/5);
 
     // prevent joystick drift by adding a min 
-    double deadzone = 0.2;
+    
 
     if (Math.abs(right) >= deadzone) {
       RIGHT_MOTOR_TOP.set(TalonFXControlMode.PercentOutput, right);
       RIGHT_MOTOR_FRONT.set(TalonFXControlMode.PercentOutput, right);
       RIGHT_MOTOR_BACK.set(TalonFXControlMode.PercentOutput, right);
     }
+    else {
+      RIGHT_MOTOR_TOP.set(TalonFXControlMode.PercentOutput, 0);
+      RIGHT_MOTOR_FRONT.set(TalonFXControlMode.PercentOutput, 0);
+      RIGHT_MOTOR_BACK.set(TalonFXControlMode.PercentOutput, 0);
+    }
 
     if (Math.abs(left) >= deadzone) {
       LEFT_MOTOR_TOP.set(TalonFXControlMode.PercentOutput, left);
       LEFT_MOTOR_FRONT.set(TalonFXControlMode.PercentOutput, left);
       LEFT_MOTOR_BACK.set(TalonFXControlMode.PercentOutput, left);
+    }
+    else {
+      LEFT_MOTOR_TOP.set(TalonFXControlMode.PercentOutput, 0);
+      LEFT_MOTOR_FRONT.set(TalonFXControlMode.PercentOutput, 0);
+      LEFT_MOTOR_BACK.set(TalonFXControlMode.PercentOutput, 0);
     }
   }
 
