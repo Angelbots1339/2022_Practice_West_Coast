@@ -117,30 +117,35 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    double joystickX = joystick.getLeftX();
-    double joystickY = -joystick.getRightX();
+    // Get x and y inputs from controller
+    double LeftY = -joystick.getLeftY(); 
+    double RightY = joystick.getRightY();
 
-    double deadzone = 0.2;
+    // Whatever this is
+    double deadzone = 0.1;
 
-
-    // leftMotorBack.set(TalonFXControlMode.PercentOutput, joystickX);   
-    // leftMotorFront.set(TalonFXControlMode.PercentOutput, joystickX);
-    // leftMotorTop.set(TalonFXControlMode.PercentOutput, joystickX);
-    // rightMotorTop.set(TalonFXControlMode.PercentOutput, joystickY);
-    // rightMotorFront.set(TalonFXControlMode.PercentOutput, joystickY);
-    // rightMotorBack.set(TalonFXControlMode.PercentOutput, joystickY);
-
-    if (joystickX <= deadzone){
-      leftMotorBack.set(TalonFXControlMode.PercentOutput, joystickX);   
-      leftMotorFront.set(TalonFXControlMode.PercentOutput, joystickX);
-      leftMotorTop.set(TalonFXControlMode.PercentOutput, joystickX);
+    // Moves the motors somehow
+    if (Math.abs(LeftY) >= deadzone){
+      leftMotorBack.set(TalonFXControlMode.PercentOutput, LeftY);   
+      leftMotorFront.set(TalonFXControlMode.PercentOutput, LeftY);
+      leftMotorTop.set(TalonFXControlMode.PercentOutput, LeftY);
+    } else{
+      leftMotorBack.set(TalonFXControlMode.PercentOutput, 0);   
+      leftMotorFront.set(TalonFXControlMode.PercentOutput, 0);
+      leftMotorTop.set(TalonFXControlMode.PercentOutput, 0);
     }
-    if (joystickY <= deadzone){
-      rightMotorTop.set(TalonFXControlMode.PercentOutput, joystickY);
-      rightMotorFront.set(TalonFXControlMode.PercentOutput, joystickY);
-      rightMotorBack.set(TalonFXControlMode.PercentOutput, joystickY);
-    }
+    if (Math.abs(RightY) >= deadzone){
+      rightMotorTop.set(TalonFXControlMode.PercentOutput, RightY);
+      rightMotorFront.set(TalonFXControlMode.PercentOutput, RightY);
+      rightMotorBack.set(TalonFXControlMode.PercentOutput, RightY);
+    }else{
+      rightMotorTop.set(TalonFXControlMode.PercentOutput, 0);
+      rightMotorFront.set(TalonFXControlMode.PercentOutput, 0);
+      rightMotorBack.set(TalonFXControlMode.PercentOutput, 0);
+      
   }
+}
+  
 
   /** This function is called once when the robot is disabled. */
   @Override
