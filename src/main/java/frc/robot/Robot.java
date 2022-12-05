@@ -90,18 +90,17 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    double speed = xbox.getLeftY() / 2;
-    double turn  = xbox.getLeftX() / 2;
+    double speed = xbox.getLeftY() / 6;
+    double turn  = xbox.getLeftX() / 10;
     double nodrift = 0.1;
     if(speed <= nodrift || turn <= nodrift) {
-      leftTop.set(ControlMode.PercentOutput, speed += turn);
-      leftFront.set(ControlMode.PercentOutput, speed += turn);
-      leftBack.set(ControlMode.PercentOutput, speed += turn);
-
-      rightTop.set(ControlMode.PercentOutput, speed += -turn);
-      rightFront.set(ControlMode.PercentOutput, speed += -turn);
-      rightBack.set(ControlMode.PercentOutput, speed += -turn);
-      //when --> left ^, right v
+      leftTop.set(ControlMode.PercentOutput, speed + turn);
+      leftFront.set(ControlMode.PercentOutput, speed + turn);
+      leftBack.set(ControlMode.PercentOutput, speed + turn);
+ 
+      rightTop.set(ControlMode.PercentOutput, -speed + turn);
+      rightFront.set(ControlMode.PercentOutput, -speed + turn);
+      rightBack.set(ControlMode.PercentOutput, -speed + turn);
     } else {
       leftTop.set(ControlMode.PercentOutput, 0);
       leftFront.set(ControlMode.PercentOutput, 0);
