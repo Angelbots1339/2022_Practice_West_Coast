@@ -97,7 +97,6 @@ public class Robot extends TimedRobot {
       leftTop.set(ControlMode.PercentOutput, speed + turn);
       leftFront.set(ControlMode.PercentOutput, speed + turn);
       leftBack.set(ControlMode.PercentOutput, speed + turn);
- 
       rightTop.set(ControlMode.PercentOutput, -speed + turn);
       rightFront.set(ControlMode.PercentOutput, -speed + turn);
       rightBack.set(ControlMode.PercentOutput, -speed + turn);
@@ -105,11 +104,13 @@ public class Robot extends TimedRobot {
       leftTop.set(ControlMode.PercentOutput, 0);
       leftFront.set(ControlMode.PercentOutput, 0);
       leftBack.set(ControlMode.PercentOutput, 0);
-
       rightTop.set(ControlMode.PercentOutput, 0);
       rightFront.set(ControlMode.PercentOutput, 0);
       rightBack.set(ControlMode.PercentOutput, 0);
     }
+
+
+    
   }
 
   /** This function is called once when the robot is disabled. */
