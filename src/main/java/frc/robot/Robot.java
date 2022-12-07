@@ -6,6 +6,8 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,6 +32,16 @@ public class Robot extends TimedRobot {
   private TalonFX rightTop = new TalonFX(5);
   private TalonFX rightFront = new TalonFX(24);
   private TalonFX rightBack = new TalonFX(26);
+
+  private TalonFX intake = new TalonFX(7);
+
+  private TalonFX loader = new TalonFX(10);
+  public final static ColorRange RED = new ColorRange(990, 500, 100, 750);
+  public final static ColorRange BLUE = new ColorRange(280, 620, 540, 600);
+
+  private TalonFX shootermain11 = new TalonFX(11);
+  private TalonFX shootermain12 = new TalonFX(12);
+  private TalonFX shootersub = new TalonFX(13);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -93,7 +105,7 @@ public class Robot extends TimedRobot {
     double speed = xbox.getLeftY() / 6;
     double turn  = xbox.getLeftX() / 10;
     double nodrift = 0.1;
-    if(speed <= nodrift || turn <= nodrift) {
+    if(speed <= nodrift || turn <= nodrift) { //drive base
       leftTop.set(ControlMode.PercentOutput, speed + turn);
       leftFront.set(ControlMode.PercentOutput, speed + turn);
       leftBack.set(ControlMode.PercentOutput, speed + turn);
@@ -108,9 +120,23 @@ public class Robot extends TimedRobot {
       rightFront.set(ControlMode.PercentOutput, 0);
       rightBack.set(ControlMode.PercentOutput, 0);
     }
+    if(xbox.getRightBumper()) { //inhaler
 
+    }
 
-    
+    if(/*tbd*/) {
+      
+    }
+
+    if(xbox.getBButton()) { //shooter
+      shootermain11.set(ControlMode.PercentOutput,-1 );
+      shootermain12.set(ControlMode.PercentOutput, 1);
+      shootersub.set(ControlMode.PercentOutput, 1);
+    } else {
+      shootermain11.set(ControlMode.PercentOutput, 0);
+      shootermain12.set(ControlMode.PercentOutput, 0);
+      shootersub.set(ControlMode.PercentOutput, 0);
+    }
   }
 
   /** This function is called once when the robot is disabled. */
