@@ -4,12 +4,20 @@
 
 package frc.robot;
 
+
+import static frc.robot.Constants.*;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import edu.wpi.first.wpilibj.I2C.Port;
+
+import com.revrobotics.ColorSensorV3.ColorSensorResolution;
+import com.revrobotics.ColorSensorV3.RawColor;
+import com.revrobotics.ColorSensorV3;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -27,10 +35,11 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
-
+  
   private XboxController joystick = new XboxController(0);
   TalonFXConfiguration config = new TalonFXConfiguration();
   
+  // Drive motor ports
   private int LEFT_MOTOR_TOP_PORT = 2;
   private int LEFT_MOTOR_FRONT_PORT = 21;
   private int LEFT_MOTOR_BACK_PORT = 23;
@@ -38,12 +47,26 @@ public class Robot extends TimedRobot {
   private int RIGHT_MOTOR_FRONT_PORT = 24;
   private int RIGHT_MOTOR_BACK_PORT = 26;
   
+  // Ports
+  public final static int INTAKE_MOTOR_PORT = 7;
+  public final static int INDEXER_RIGHT_PORT = 9;
+  public final static int INDEXER_LEFT_PORT = 28;
+  
+  // Loader ports 
+  public final static int LEFT_INTAKE_PORT = 8;
+  
+  
+  
   private TalonFX leftMotorBack = new TalonFX(LEFT_MOTOR_BACK_PORT, "Canivore");
   private TalonFX leftMotorFront = new TalonFX(LEFT_MOTOR_FRONT_PORT, "Canivore");
   private TalonFX leftMotorTop = new TalonFX(LEFT_MOTOR_TOP_PORT, "Canivore");
   private TalonFX rightMotorBack = new TalonFX(RIGHT_MOTOR_BACK_PORT, "Canivore");
   private TalonFX rightMotorFront = new TalonFX(RIGHT_MOTOR_FRONT_PORT, "Canivore");
   private TalonFX rightMotorTop = new TalonFX(RIGHT_MOTOR_TOP_PORT, "Canivore");
+  private TalonFX intakeMotor = new TalonFX(INTAKE_MOTOR_PORT, "Canivore"); // Intake Motor
+  private TalonFX loaderMotor = new TalonFX(10,"Canivore");
+  private ColorSensorV3 proximityColorSensor = new ColorSensorV3(Port.kMXP);
+  
   /**
    * This function is run when the robot is first started up and should be used
    * for any
@@ -55,7 +78,7 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
   }
-
+  
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items
    * like diagnostics
@@ -69,7 +92,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
   }
-
+  
   /**
    * This autonomous (along with the chooser code above) shows how to select
    * between different
@@ -93,37 +116,45 @@ public class Robot extends TimedRobot {
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
   }
-
-  /** This function is called periodically during autonomous. */
+  
+  /** This function is called periodically during autonomou§. */
   @Override
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
       case kCustomAuto:
-        // Put custom auto code here
-        break;
+      // Put custom auto code here
+      break;
       case kDefaultAuto:
       default:
-        // Put default auto code here
-        break;
+      // Put default auto code here
+      break;
     }
   }
-
+  
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
   }
-
-  /** This function is called periodically during operator control. */
+  
+  /** This function is c  alled periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-
+    
     // Get x and y inputs from controller
     double LeftY = -joystick.getLeftY(); 
     double RightY = joystick.getRightY();
+    // Invert right
+    // Dont invert left
+    // Invert middle
+    double intakeTrig = joystick.getLeftTriggerAxis();
+    
+    // int blueBall = colorSensor.getBlue();
+    
+    
 
     // Whatever this is
     double deadzone = 0.1;
-
+    
     // Moves the motors somehow
     if (Math.abs(LeftY) >= deadzone){
       leftMotorBack.set(TalonFXControlMode.PercentOutput, LeftY);   
@@ -141,12 +172,21 @@ public class Robot extends TimedRobot {
     }else{
       rightMotorTop.set(TalonFXControlMode.PercentOutput, 0);
       rightMotorFront.set(TalonFXControlMode.PercentOutput, 0);
-      rightMotorBack.set(TalonFXControlMode.PercentOutput, 0);
-      
+      rightMotorBack.set(TalonFXControlMode. PercentOutput, 0);
+    }
+    
+    if(proximityColorSensor.getProximity() <= 1000){}
+    
+    // Intake
+    if(Math.abs(intakeTrig) >= deadzone){
+      intakeMotor.set(TalonFXControlMode.PercentOutput, INTAKE_DEPLOY_SPEED);
+    }else{
+      intakeMotor.set(TalonFXControlMode.PercentOutput,0);
+    }
+    
   }
-}
   
-
+  
   /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {
